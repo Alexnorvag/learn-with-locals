@@ -4,10 +4,21 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^4.0.1",
     "body-parser": "^1.19.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "mongoose": "^5.9.16",
+    "morgan": "^1.10.0",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
     "quickblox": "^2.12.7"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
   },
   "scripts": {
     "start": "cd server && nodemon index.js"
