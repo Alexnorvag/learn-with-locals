@@ -2,21 +2,18 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
-const passport = require("passport");
-const flash = require("connect-flash");
-const morgan = require("morgan");
-const cookieParser = require("cookie-parser");
-const session = require("express-session");
+// const passport = require("passport");
+// const flash = require("connect-flash");
+// const morgan = require("morgan");
+// const cookieParser = require("cookie-parser");
+// const session = require("express-session");
+const routes = require("./routes");
 
-const User = require("./models/user.model");
+const User = require("./entity/user");
 const dbConfig = require("./config/database.config");
 
-// mongoose.connect(dbConfig.url, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// });
 const db = require("./db")(dbConfig.url);
-require("./config/passport.config")(passport);
+// require("./config/passport.config")(passport);
 
 var QB = require("quickblox");
 var CREDENTIALS = {
@@ -25,48 +22,66 @@ var CREDENTIALS = {
   authSecret: "huuPpdER4Lcg365",
 };
 
-// OR to create many QB instances
-// var QuickBlox = require("quickblox").QuickBlox;
-// var QB1 = new QuickBlox();
-// var QB2 = new QuickBlox();
-
 // const movieRouter = require("./routes/property-router");
 
+// Create express application instance
 const app = express();
 const apiPort = process.env.PORT || 8080;
 
-app.use(morgan("dev"));
-app.use(cookieParser());
+// Call midlewares
+// app.use(morgan("dev"));
+// app.use(cookieParser());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(
-  session({
-    secret: "randomsecretkeyapi",
-    resave: false,
-    saveUninitialized: false,
-  })
-);
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(flash());
+// app.use(
+//   session({
+//     secret: "randomsecretkeyapi",
+//     resave: false,
+//     saveUninitialized: false,
+//   })
+// );
+// app.use(passport.initialize());
+// app.use(passport.session());
+// app.use(flash());
+
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 app.use(express.static(path.join(__dirname, "..", "client")));
 app.use(express.static(path.join(__dirname, "..", "client/build")));
 
-db.on("error", console.error.bind(console, "MongoDB connection error:"));
+//Set all routes from routes folder
+// app.use("/", routes);
 
+app.get("/testcreate", async (req, res) => {
+  let user = new User();
+  user.username = "admin";
+  user.password = "admin";
+  user.hashPassword();
+  user.role = "ADMIN";
+  await user.save(user);
+});
+
+app.get("/checkcreate", async (req, res) => {
+  const user = await User.findOne({ _id: "5ed5348cd5e484137c29d5da" });
+  const password = "admin";
+
+  console.log(
+    "finded user: ",
+    user.checkIfUnencryptedPasswordIsValid(password)
+  );
+});
 
 // Routes
-require("./routes/routes")(app, passport, User);
+// require("./routes/routes")(app, passport, User);
 
-app.post(
-  "/api/signup",
-  passport.authenticate("local-signup", {
-    successRedirect: "/",
-    failureRedirect: "/signup",
-  })
-);
+// app.post(
+//   "/api/signup",
+//   passport.authenticate("local-signup", {
+//     successRedirect: "/",
+//     failureRedirect: "/signup",
+//   })
+// );
 
 app.get("/session/init", (req, res) => {
   res.send("Init page!");
