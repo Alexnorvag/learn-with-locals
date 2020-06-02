@@ -14,6 +14,7 @@ module.exports = {
     let user = null;
     try {
       user = await User.findOne({ username });
+      console.log("user: ", user);
     } catch (error) {
       res.status(401).send();
     }
@@ -29,7 +30,7 @@ module.exports = {
       config.jwtSecret,
       { expiresIn: "1h" }
     );
-
+    console.log("token: ", token);
     // Send the jwt in the responce
     res.send(token);
   },
