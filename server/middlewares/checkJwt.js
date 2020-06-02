@@ -3,10 +3,9 @@ const config = require("../config/config");
 
 module.exports = checkJwt = (req, res, next) => {
   //Get jwt token from the head
-  console.log("checkJWT [HEADER]: ", req.headers);
   const token = req.headers["auth"];
 
-  let jwtPayload;
+  let jwtPayload = null;
 
   try {
     jwtPayload = jwt.verify(token, config.jwtSecret);

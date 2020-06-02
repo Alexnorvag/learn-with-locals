@@ -50,8 +50,8 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 app.use(express.static(path.join(__dirname, "..", "client")));
 app.use(express.static(path.join(__dirname, "..", "client/build")));
 
-//Set all routes from routes folder
-// app.use("/", routes);
+// Set all routes from routes folder
+app.use("/", routes);
 
 app.get("/testcreate", async (req, res) => {
   let user = new User();
