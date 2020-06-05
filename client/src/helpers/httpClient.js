@@ -26,7 +26,6 @@ httpClient.logIn = function (credentials) {
     data: credentials,
   }).then((serverResponse) => {
     const token = serverResponse.data;
-    console.log("@!OFKP!OK@: ", serverResponse)
     if (token) {
       // sets token as an included header for all subsequent api requests
       this.defaults.headers.common.token = this.setToken(token);
@@ -35,6 +34,12 @@ httpClient.logIn = function (credentials) {
       return false;
     }
   });
+};
+
+httpClient.logOut = function () {
+  localStorage.removeItem("token");
+  delete this.defaults.headers.common.token;
+  return true;
 };
 
 // During initial app load attempt to set a localStorage stored token
