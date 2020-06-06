@@ -1,13 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
+
+import { configureStore } from "@reduxjs/toolkit";
+import { Provider } from "react-redux";
+import rootReducer from "./reducers";
+
 import { BrowserRouter as Router } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import Routes from "./components/routes/routes";
-import "./index.css";
-// import App from "./App";
-import store from "./app/store";
-import { Provider } from "react-redux";
+
 import * as serviceWorker from "./serviceWorker";
+
+import "./index.css";
+
+const store = configureStore({
+  reducer: rootReducer,
+});
 
 const history = createBrowserHistory();
 
@@ -15,7 +23,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <Router history={history}>
-        <Routes/>
+        <Routes />
       </Router>
     </Provider>
   </React.StrictMode>,
