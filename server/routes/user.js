@@ -3,7 +3,8 @@ const UserController = require("../controllers/UserController");
 const { checkJwt, checkRole } = require("../middlewares");
 
 // Get all user
-router.get("/", [checkJwt, checkRole(["ADMIN"])], UserController.listAll);
+router.get("/", UserController.listAll);
+// router.get("/", [checkJwt, checkRole(["ADMIN"])], UserController.listAll);
 
 // Get one user
 router.get(

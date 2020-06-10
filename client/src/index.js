@@ -1,9 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
-import rootReducer from "./reducers";
+import store from "./app/store";
 
 import { BrowserRouter as Router } from "react-router-dom";
 import { createBrowserHistory } from "history";
@@ -12,10 +11,6 @@ import Routes from "./components/routes/routes";
 import * as serviceWorker from "./serviceWorker";
 
 import "./index.css";
-
-const store = configureStore({
-  reducer: rootReducer,
-});
 
 const history = createBrowserHistory();
 

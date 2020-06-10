@@ -14,13 +14,19 @@ const usersSlice = createSlice({
         state.loading = "pending";
       }
     },
+    usersReceived(state, action) {
+      if (state.loading === "pending") {
+        state.loading = "idle";
+        state.users = action.payload;
+      }
+    },
     getUsers: (state, action) => {
       state.list = action.payload;
     },
   },
 });
 
-export const { getUsers } = usersSlice.actions;
+export const { usersLoading, usersReceived, getUsers } = usersSlice.actions;
 
 export const selectUsers = (state) => state.users.list;
 

@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Link } from "react-router-dom";
-import logo from "./logo.svg";
-import { Counter } from "./features/counter/Counter";
-import httpClient from "./helpers/httpClient";
+// import { Counter } from "./features/counter/Counter";
+import httpClient from "../../helpers/httpClient";
 import "./App.css";
 
 const App = ({ children }) => {
