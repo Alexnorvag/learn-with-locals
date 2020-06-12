@@ -3,6 +3,40 @@ const config = require("../config/config");
 const User = require("../entity/user");
 
 module.exports = {
+  register: async (req, res) => {
+    // Get parameters from the body
+    let { username, password, role } = req.body;
+    let user = new User({ username, password, role });
+
+    // Hash the password to securely store on DB
+    user.hashPassword();
+
+    // Try to save. If fails, the username is already in use
+    try {
+      console.log("USER: ", user);
+      // validate
+      if (await User.findOne({ username: user.username })) {
+        throw 'Username "' + user.username + '" is already taken';
+      }
+
+      // save user
+      await user.save();
+    } catch (e) {
+      res.status(409).send(e);
+      return;
+    }
+
+    const token = jwt.sign(
+      { userId: user._id, username: user.username },
+      config.jwtSecret,
+      { expiresIn: "1h" }
+    );
+    console.log("token: ", token);
+
+    // If all ok, send 201 response
+    // res.status(201).send("User created");
+    res.status(201).send(token);
+  },
   login: async (req, res) => {
     // Check if username and password are set
     let { username, password } = req.body;

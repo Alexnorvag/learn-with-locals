@@ -1,8 +1,8 @@
 import API from "../../utils/API";
 
-const API_URL = "/auth/login";
+const API_URL = "api/auth/register";
 
-export const userAPI = {
+export const authAPI = {
   register: async (userInfo) => {
     try {
       return await API.post(`${API_URL}`, userInfo);
