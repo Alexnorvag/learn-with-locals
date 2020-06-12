@@ -1,14 +1,11 @@
 import API from "../../utils/API";
 
-const API_URL = "/user/";
+const API_URL = "/auth/login";
 
 export const userAPI = {
-  fetchAll: async () => {
+  register: async (userInfo) => {
     try {
-      return await API.get(`${API_URL}`, {
-        results: 2,
-        inc: "username,role",
-      });
+      return await API.post(`${API_URL}`, userInfo);
     } catch (e) {
       console.log(`😲 Axios request failed: ${e}`);
     }

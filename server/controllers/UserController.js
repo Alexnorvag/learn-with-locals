@@ -3,7 +3,7 @@ const User = require("../entity/user");
 module.exports = {
   listAll: async (req, res) => {
     // Get users from database
-    let users = await User.find({}, { _id: 1, username: 1, role: 1 });
+    let users = await User.find({}, { id: 1, username: 1, role: 1 });
 
     // Send the users object
     res.send(users);
@@ -24,24 +24,27 @@ module.exports = {
   newUser: async (req, res) => {
     // Get parameters from the body
     let { username, password, role } = req.body;
-    const user = {
-      username,
-      password,
-      role,
-    };
+    let user = new User({ username, password, role });
 
     // Hash the password to securely store on DB
     user.hashPassword();
 
     // Try to save. If fails, the username is already in use
     try {
-      await User.insertOne(user);
+      console.log("USER: ", user);
+      // validate
+      if (await User.findOne({ username: user.username })) {
+        throw 'Username "' + user.username + '" is already taken';
+      }
+
+      // save user
+      await user.save();
     } catch (e) {
-      res.status(409).send("username already in use");
+      res.status(409).send(e);
       return;
     }
 
-    // If all ok, send 201 response
+    // // If all ok, send 201 response
     res.status(201).send("User created");
   },
   editUser: async (req, res) => {

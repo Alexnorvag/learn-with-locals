@@ -5,20 +5,19 @@ import { Provider } from "react-redux";
 import store from "./app/store";
 
 import { BrowserRouter as Router } from "react-router-dom";
-import { createBrowserHistory } from "history";
-import Routes from "./components/routes/routes";
+import App from "./components/app/App";
+// import Routes from "./components/routes/routes";
 
 import * as serviceWorker from "./serviceWorker";
 
 import "./index.css";
 
-const history = createBrowserHistory();
-
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Router history={history}>
-        <Routes />
+      <Router>
+        <App />
+        {/* <Routes /> */}
       </Router>
     </Provider>
   </React.StrictMode>,

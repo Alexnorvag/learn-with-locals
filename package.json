@@ -22,6 +22,10 @@
     "nodemon": "^2.0.4"
   },
   "scripts": {
-    "start": "cd server && nodemon index.js"
+    "client-install": "yarn add --prefix client",
+    "start": "cd server && node index.js",
+    "server": "cd server && nodemon index.js",
+    "client": "cd client && yarn start",
+    "dev": "concurrently \"yarn run server\" \"yarn run client\""
   }
 }

@@ -7,7 +7,7 @@ import { userAPI } from "./userAPI";
 
 export const fetchUsers = createAsyncThunk("users/fetchAll", async () => {
   const response = await userAPI.fetchAll();
-  console.log("[FETCH USERS] -> res: ", response);
+  console.log("[FETCH USERS] -> res: ", response.data);
   return response.data;
 });
 

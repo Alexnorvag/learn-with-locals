@@ -30,7 +30,6 @@ User.methods.hashPassword = function () {
 User.methods.checkIfUnencryptedPasswordIsValid = function (
   unencryptedPassword
 ) {
-  console.log("CHECK");
   return bcrypt.compareSync(unencryptedPassword, this.password);
 };
 
